@@ -3,7 +3,8 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
-    '@angular2-material': 'vendor/@angular2-material'
+    '@angular2-material': 'vendor/@angular2-material',
+    'angular2-google-maps': 'vendor/angular2-google-maps'
 };
 
 /** User packages configuration. */
@@ -40,7 +41,8 @@ const barrels: string[] = [
     // App specific barrels.
     'app',
     'app/shared',
-    /** @cli-barrel */
+    'app/map',
+  /** @cli-barrel */
 ];
 
 const cliSystemConfigPackages: any = {};
