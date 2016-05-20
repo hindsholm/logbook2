@@ -13,7 +13,8 @@ module.exports = function(defaults) {
       'rxjs/**/*.js',
       '@angular/**/*.js',
       '@angular2-material/**/*.js',
-      'openlayers/dist/ol.js'
+      'openlayers/dist/ol.js',
+      'openlayers/dist/ol.css'
     ]
   });
 };
