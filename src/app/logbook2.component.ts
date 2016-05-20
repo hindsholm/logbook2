@@ -14,5 +14,5 @@ import { MapComponent } from './map'
       <map></map>`
 })
 export class Logbook2AppComponent {
-  title = 'logbook2 works!';
+  title = 'Logbook';
 }
