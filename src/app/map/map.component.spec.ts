@@ -20,7 +20,7 @@ describe('Component: Map', () => {
     );
 
     it('should create the component', inject([], () => {
-        return builder.createAsync(MapComponentTestController)
+        return builder.createAsync(MapComponentTestComponent)
             .then((fixture: ComponentFixture<any>) => {
                 let query = fixture.debugElement.query(By.directive(MapComponent));
                 expect(query).toBeTruthy();
@@ -30,10 +30,10 @@ describe('Component: Map', () => {
 });
 
 @Component({
-    selector: 'test',
-    template: '<map></map>',
+    selector: 'lb-test',
+    template: '<lb-map></lb-map>',
     directives: [MapComponent]
 })
-class MapComponentTestController {
+class MapComponentTestComponent {
 }
 

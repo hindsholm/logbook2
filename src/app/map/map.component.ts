@@ -3,7 +3,7 @@ import * as ol from 'openlayers';
 
 @Component({
     moduleId: module.id,
-    selector: 'map',
+    selector: 'lb-map',
     templateUrl: 'map.component.html',
     styleUrls: ['map.component.css']
 })
