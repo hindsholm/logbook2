@@ -36,4 +36,3 @@ describe('Component: Map', () => {
 })
 class MapComponentTestComponent {
 }
-
