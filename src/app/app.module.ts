@@ -5,10 +5,12 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        MapComponent
     ],
     imports: [
         BrowserModule,
