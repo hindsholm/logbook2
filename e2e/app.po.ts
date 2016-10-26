@@ -1,9 +1,11 @@
-export class Logbook2Page {
+import { browser, element, by } from 'protractor';
+
+export class LogbookPage {
   navigateTo() {
     return browser.get('/');
   }
 
   getParagraphText() {
-    return element(by.css('logbook2-app h1')).getText();
+    return element(by.css('app-root h1')).getText();
   }
 }

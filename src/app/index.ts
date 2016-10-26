@@ -1,2 +1,2 @@
-export {environment} from './environment';
-export {Logbook2AppComponent} from './logbook2.component';
+export * from './app.component';
+export * from './app.module';
