@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Coordinate, layer, Map, proj, source, View } from 'openlayers';
 
 @Component({
     selector: 'app-map',
-    template: '<div id="map" class="map" [ngStyle]="style" (window:resize)="onResize($event)"></div>',
+    template: '<div id="map" class="map" [ngStyle]="style"></div>',
     styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
 
     map: Map;
     center: Coordinate = [10.1, 56.7];
-    style = { height: '500px' };
+    style = { 'height.px': 500 };
 
     ngOnInit() {
         this.setHeight(window.innerHeight);
@@ -34,10 +34,13 @@ export class MapComponent implements OnInit {
         });
     }
 
+    // Ugly hack for dynamically resizing the map div
+
     setHeight(height: number) {
-        this.style.height = (height - 100) + 'px';
+        this.style['height.px'] = height - 100;
     }
 
+    @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.setHeight(event.target.innerHeight);
     }
