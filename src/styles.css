@@ -2,3 +2,8 @@
 
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css'; /* default material theme */
 @import '~openlayers/dist/ol.css';
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
