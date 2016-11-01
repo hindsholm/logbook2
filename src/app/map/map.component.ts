@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Coordinate, layer, Map, proj, source, View } from 'openlayers';
 
 @Component({
