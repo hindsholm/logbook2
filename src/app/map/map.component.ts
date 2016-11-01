@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Coordinate, format, layer, Map, proj, source, View } from 'openlayers';
 
 @Component({
@@ -8,6 +8,7 @@ import { Coordinate, format, layer, Map, proj, source, View } from 'openlayers';
 })
 export class MapComponent implements OnInit {
 
+    _gpx: string;
     map: Map;
     center: Coordinate = [10.1, 56.7];
 
@@ -21,11 +22,15 @@ export class MapComponent implements OnInit {
                 projection: undefined
             })
         });
-        let track = new layer.Vector({
-            source: new source.Vector({
-                format: new format.GPX(),
-                url: 'http://pemba.hindsholm.dk/tracks/2015-07-17.gpx'
-            }),
+        let trackSrc = new source.Vector({
+            format: new format.GPX(),
+            url: this._gpx
+        });
+        trackSrc.once('change', (e) => {
+            this.map.getView().fit(trackSrc.getExtent(), this.map.getSize());
+        });
+        let trackLayer = new layer.Vector({
+            source: trackSrc,
             renderOrder: null
         })
         let view = new View({
@@ -34,9 +39,18 @@ export class MapComponent implements OnInit {
         });
         this.map = new Map({
             target: 'map',
-            layers: [landMap, seaMap, track],
+            layers: [landMap, seaMap, trackLayer],
             view: view
         });
+    }
+
+    @Input()
+    set gpx(url: string) {
+        this._gpx = url;
+    }
+
+    get gpx() {
+        return this._gpx;
     }
 
 }
