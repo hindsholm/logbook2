@@ -1,38 +1,28 @@
-import { beforeEach, beforeEachProviders, describe, expect, it, inject } from '@angular/core/testing';
-import { ComponentFixture, TestComponentBuilder } from '@angular/compiler/testing';
-import { Component } from '@angular/core';
+/* tslint:disable:no-unused-variable */
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+
 import { MapComponent } from './map.component';
 
-describe('Component: Map', () => {
-    let builder: TestComponentBuilder;
+describe('MapComponent', () => {
+    let component: MapComponent;
+    let fixture: ComponentFixture<MapComponent>;
 
-    beforeEachProviders(() => [MapComponent]);
-
-    beforeEach(inject([TestComponentBuilder], function (tcb: TestComponentBuilder) {
-        builder = tcb;
-    }));
-
-    it('should inject the component', inject([MapComponent],
-        (component: MapComponent) => {
-            expect(component).toBeTruthy();
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [MapComponent]
         })
-    );
-
-    it('should create the component', inject([], () => {
-        return builder.createAsync(MapComponentTestComponent)
-            .then((fixture: ComponentFixture<any>) => {
-                let query = fixture.debugElement.query(By.directive(MapComponent));
-                expect(query).toBeTruthy();
-                expect(query.componentInstance).toBeTruthy();
-            });
+            .compileComponents();
     }));
-});
 
-@Component({
-    selector: 'lb-test',
-    template: '<lb-map></lb-map>',
-    directives: [MapComponent]
-})
-class MapComponentTestComponent {
-}
+    beforeEach(() => {
+        fixture = TestBed.createComponent(MapComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+});

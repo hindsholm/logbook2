@@ -1,41 +1,64 @@
-import { Component, OnInit } from '@angular/core';
-import * as ol from 'openlayers';
+import { Component, Input, OnInit } from '@angular/core';
+import { Coordinate, format, layer, Map, proj, source, View } from 'openlayers';
 
 @Component({
-    moduleId: module.id,
-    selector: 'lb-map',
-    templateUrl: 'map.component.html',
-    styleUrls: ['map.component.css']
+    selector: 'app-map',
+    template: '<div id="map" class="map"></div>',
+    styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
 
-    map: ol.Map;
-    center: ol.Coordinate = [10.1, 56.7];
+    map: Map;
+    trackLayer: layer.Vector;
+
+    constructor() {
+        this.trackLayer = new layer.Vector({
+            source: new source.Vector(),
+            renderOrder: null
+        })
+    }
 
     ngOnInit() {
-        let landMap = new ol.layer.Tile({
-            source: new ol.source.OSM()
+        let landMap = new layer.Tile({
+            source: new source.OSM()
         });
-        let seaMap = new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: 'http://t1.openseamap.org/seamark/{z}/{x}/{y}.png'
+        let seaMap = new layer.Tile({
+            source: new source.XYZ({
+                url: 'http://t1.openseamap.org/seamark/{z}/{x}/{y}.png',
+                projection: undefined
             })
         });
-        let track = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                url: 'app/tracks/20140905.gpx',
-                format: new ol.format.GPX()
-            }),
-        });
-        let view = new ol.View({
-            center: ol.proj.fromLonLat(this.center, 'EPSG:3857'),
+        let view = new View({
+            center: proj.fromLonLat([10.1, 56.7], 'EPSG:3857'),
             zoom: 12
         });
-        this.map = new ol.Map({
+        this.map = new Map({
             target: 'map',
-            layers: [landMap, seaMap, track],
+            layers: [landMap, seaMap, this.trackLayer],
             view: view
         });
+    }
+
+    loadTrack(url: string) {
+        let trackSrc = new source.Vector({
+            format: new format.GPX(),
+            url: url
+        });
+        trackSrc.once('change', (e) => {
+            if (this.map) {
+                this.map.getView().fit(trackSrc.getExtent(), this.map.getSize());
+            }
+        });
+        this.trackLayer.setSource(trackSrc);
+    }
+
+    @Input()
+    set gpx(url: string) {
+        this.loadTrack(url);
+    }
+
+    get gpx() {
+        return <string> this.trackLayer.getSource().getUrl();
     }
 
 }
