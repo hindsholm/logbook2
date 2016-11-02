@@ -8,9 +8,15 @@ import { Coordinate, format, layer, Map, proj, source, View } from 'openlayers';
 })
 export class MapComponent implements OnInit {
 
-    _gpx: string;
     map: Map;
-    center: Coordinate = [10.1, 56.7];
+    trackLayer: layer.Vector;
+
+    constructor() {
+        this.trackLayer = new layer.Vector({
+            source: new source.Vector(),
+            renderOrder: null
+        })
+    }
 
     ngOnInit() {
         let landMap = new layer.Tile({
@@ -22,35 +28,37 @@ export class MapComponent implements OnInit {
                 projection: undefined
             })
         });
-        let trackSrc = new source.Vector({
-            format: new format.GPX(),
-            url: this._gpx
-        });
-        trackSrc.once('change', (e) => {
-            this.map.getView().fit(trackSrc.getExtent(), this.map.getSize());
-        });
-        let trackLayer = new layer.Vector({
-            source: trackSrc,
-            renderOrder: null
-        })
         let view = new View({
-            center: proj.fromLonLat(this.center, 'EPSG:3857'),
+            center: proj.fromLonLat([10.1, 56.7], 'EPSG:3857'),
             zoom: 12
         });
         this.map = new Map({
             target: 'map',
-            layers: [landMap, seaMap, trackLayer],
+            layers: [landMap, seaMap, this.trackLayer],
             view: view
         });
     }
 
+    loadTrack(url: string) {
+        let trackSrc = new source.Vector({
+            format: new format.GPX(),
+            url: url
+        });
+        trackSrc.once('change', (e) => {
+            if (this.map) {
+                this.map.getView().fit(trackSrc.getExtent(), this.map.getSize());
+            }
+        });
+        this.trackLayer.setSource(trackSrc);
+    }
+
     @Input()
     set gpx(url: string) {
-        this._gpx = url;
+        this.loadTrack(url);
     }
 
     get gpx() {
-        return this._gpx;
+        return <string> this.trackLayer.getSource().getUrl();
     }
 
 }
