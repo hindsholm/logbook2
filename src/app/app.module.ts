@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
@@ -18,6 +18,7 @@ import { MapComponent } from './map/map.component';
         HttpModule,
         MaterialModule.forRoot()
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     providers: [],
     bootstrap: [AppComponent]
 })

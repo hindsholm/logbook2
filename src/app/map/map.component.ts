@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Coordinate, format, layer, Map, proj, source, View } from 'openlayers';
+import { Map, View, format, layer, proj, source } from 'openlayers';
 
 @Component({
     selector: 'app-map',
@@ -15,14 +15,14 @@ export class MapComponent implements OnInit {
         this.trackLayer = new layer.Vector({
             source: new source.Vector(),
             renderOrder: null
-        })
+        });
     }
 
     ngOnInit() {
-        let landMap = new layer.Tile({
+        let land = new layer.Tile({
             source: new source.OSM()
         });
-        let seaMap = new layer.Tile({
+        let sea = new layer.Tile({
             source: new source.XYZ({
                 url: 'http://t1.openseamap.org/seamark/{z}/{x}/{y}.png',
                 projection: undefined
@@ -34,7 +34,7 @@ export class MapComponent implements OnInit {
         });
         this.map = new Map({
             target: 'map',
-            layers: [landMap, seaMap, this.trackLayer],
+            layers: [land, sea, this.trackLayer],
             view: view
         });
     }
