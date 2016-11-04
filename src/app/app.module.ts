@@ -6,6 +6,7 @@ import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
+import { TrackService } from './track/track.service';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,7 @@ import { MapComponent } from './map/map.component';
         MaterialModule.forRoot()
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [],
+    providers: [TrackService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
