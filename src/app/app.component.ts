@@ -12,8 +12,8 @@ export class AppComponent implements OnInit {
     @ViewChild(MapComponent)
     map: MapComponent;
 
-    tracks: Track[];
-    track: Track;
+    tracks: Track[] = [];
+    trackNumber: number = -1;
     errorMessage: string;
 
     constructor(private trackService: TrackService) {
@@ -26,9 +26,17 @@ export class AppComponent implements OnInit {
                 error => this.errorMessage = <any>error);
     }
 
-    loadTrack(track: Track) {
-        this.track = track;
-        this.map.gpx = track.url;
+    loadTrack(index: number) {
+        this.trackNumber = index;
+        this.map.gpx = this.tracks[index].url;
+    }
+
+    previous() {
+        this.loadTrack(this.trackNumber - 1);
+    }
+
+    next() {
+        this.loadTrack(this.trackNumber + 1);
     }
 
 }
