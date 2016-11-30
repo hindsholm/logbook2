@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Map, View, format, layer, proj, source } from 'openlayers';
+import * as ol from 'openlayers';
 
 @Component({
     selector: 'app-map',
@@ -8,31 +8,31 @@ import { Map, View, format, layer, proj, source } from 'openlayers';
 })
 export class MapComponent implements OnInit {
 
-    map: Map;
-    trackLayer: layer.Vector;
+    map: ol.Map;
+    trackLayer: ol.layer.Vector;
 
     constructor() {
-        this.trackLayer = new layer.Vector({
-            source: new source.Vector(),
+        this.trackLayer = new ol.layer.Vector({
+            source: new ol.source.Vector(),
             renderOrder: null
         });
     }
 
     ngOnInit() {
-        let land = new layer.Tile({
-            source: new source.OSM()
+        let land = new ol.layer.Tile({
+            source: new ol.source.OSM()
         });
-        let sea = new layer.Tile({
-            source: new source.XYZ({
+        let sea = new ol.layer.Tile({
+            source: new ol.source.XYZ({
                 url: 'http://t1.openseamap.org/seamark/{z}/{x}/{y}.png',
                 projection: undefined
             })
         });
-        let view = new View({
-            center: proj.fromLonLat([10.1, 56.7], 'EPSG:3857'),
+        let view = new ol.View({
+            center: ol.proj.fromLonLat([10.1, 56.7], 'EPSG:3857'),
             zoom: 12
         });
-        this.map = new Map({
+        this.map = new ol.Map({
             target: 'map',
             layers: [land, sea, this.trackLayer],
             view: view
@@ -40,8 +40,8 @@ export class MapComponent implements OnInit {
     }
 
     loadTrack(url: string) {
-        let trackSrc = new source.Vector({
-            format: new format.GPX(),
+        let trackSrc = new ol.source.Vector({
+            format: new ol.format.GPX(),
             url: url
         });
         trackSrc.once('change', (e) => {
