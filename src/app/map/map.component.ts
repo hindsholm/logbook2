@@ -20,7 +20,12 @@ export class MapComponent implements OnInit {
 
     ngOnInit() {
         let land = new ol.layer.Tile({
-            source: new ol.source.OSM()
+            // source: new ol.source.OSM()
+            source: new ol.source.BingMaps({
+                key: 'AvzjjrvdUbpbaSZt6mBxjJf6-edLi-QZ6FBVuMz1KWO90sNeGqG8mlpJNoOcr8zB',
+                imagerySet: 'AerialWithLabels',
+                maxZoom: 19
+            })
         });
         let sea = new ol.layer.Tile({
             source: new ol.source.XYZ({
