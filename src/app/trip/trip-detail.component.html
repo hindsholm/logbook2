@@ -1,0 +1,16 @@
+<div class="wrapper">
+    <header>
+        <md-toolbar color="primary">
+            <span class="title"><a routerLink="/">Logbook</a></span>
+            <span style="flex: 1"></span>
+            <button md-button [md-menu-trigger-for]="menu">{{track.name}}</button>
+            <md-menu #menu="mdMenu" x-position="before">
+                <button md-menu-item routerLink="/trips/{{track.name}}"
+                        *ngFor="let track of tracks; let i = index">{{track.name}}</button>
+            </md-menu>
+        </md-toolbar>
+    </header>
+    <div class="main">
+        <app-map></app-map>
+    </div>
+</div>

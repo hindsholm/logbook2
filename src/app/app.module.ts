@@ -1,27 +1,25 @@
 import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
-import { TrackService } from './track/track.service';
+import { AppRoutingModule } from './app-routing.module';
+
+import { TripModule } from './trip/trip.module';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        MapComponent
+        AppComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
-        MaterialModule.forRoot()
+        MaterialModule.forRoot(),
+        TripModule,
+        AppRoutingModule
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    providers: [TrackService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

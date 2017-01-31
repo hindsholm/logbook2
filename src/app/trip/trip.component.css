@@ -14,3 +14,8 @@
     flex: 1 1 100%;
     overflow: hidden;
 }
+
+.title a {
+    color: white;
+    text-decoration: none;
+}

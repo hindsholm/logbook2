@@ -10,15 +10,31 @@ export interface Track {
 @Injectable()
 export class TrackService {
 
-    static TRACK_URL = 'http://pemba.hindsholm.dk/tracks/';
+    static readonly TRACK_URL = 'http://pemba.hindsholm.dk/tracks/';
+    static cache: Track[] = undefined;
 
     constructor(private http: Http) {
     }
 
     getTracks(): Observable<Track[]> {
-        return this.http.get(TrackService.TRACK_URL)
-            .map(this.extractData)
-            .catch(this.handleError);
+        if (TrackService.cache !== undefined) {
+            return Observable.of(TrackService.cache);
+        } else {
+            return this.http.get(TrackService.TRACK_URL)
+                .map(this.extractData)
+                .catch(this.handleError);
+        }
+    }
+
+    getTrack(name: string): Observable<Track> {
+        return this.getTracks().map(tracks => {
+            for (let track of tracks) {
+                if (name === track.name) {
+                    return track;
+                }
+            }
+            throw('Track not found: ' + name);
+        });
     }
 
     private extractData(res: Response): Track[] {
@@ -38,6 +54,7 @@ export class TrackService {
         tracks.sort((a, b) => {
             return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
         });
+        TrackService.cache = tracks;
         return tracks;
     }
 
